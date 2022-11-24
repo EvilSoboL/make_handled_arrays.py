@@ -29,7 +29,8 @@ def handled_arrays(path_with_mode):
                         if row[symbols] == ":":
                             if rows_in_config == 0:
                                 slice_duration = float(row[symbols + 1:])
-                            averaging_duration = float(row[symbols + 1:])
+                            elif rows_in_config == 1:
+                                averaging_duration = float(row[symbols + 1:])
                             rows_in_config += 1
             # Прибавляем i до тех пор пока значение времени не будет + 70 секунд
             while time_start + slice_duration > unhandled_array[i][0] and i != (unhandled_array.shape[0] - 1):
