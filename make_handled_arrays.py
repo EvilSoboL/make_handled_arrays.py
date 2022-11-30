@@ -89,14 +89,15 @@ def handled_arrays(path_with_mode):
                   "%1.3f ", "%1.3f ", "%1.3f "
             header = "-(mm) sec " "O2(%) " "H2(%) " "CO(%) " "CO2(%) " "CH4(%) " "SO2(ppm) " "NO(ppm) " "NO2(ppm) "\
                      "N2O(ppm) " "t(oC) " "P(mm.pt.st.)"
-            header_procent = "-(mm)  sec " "O2(%)          " "H2(%)          " "CO(%)          " "CO2(%)          " \
-                             "CH4(%)          " "SO2(ppm)          " "NO(ppm)          " "NO2(ppm)          " \
-                             "N2O(ppm)          " "t(oC)         " "P(mm.pt.st.)"
+            header_procent = "-(mm)  sec              " "O2(%)          " "H2(%)          " "CO(%)          " \
+                             "CO2(%)          " "CH4(%)          " "SO2(ppm)          " "NO(ppm)          " \
+                             "NO2(ppm)          " "N2O(ppm)          " "t(oC)         " "P(mm.pt.st.)"
             # Добавление оси хода газоанализатора
             step_gas_analyzer = 200
             for k in range(len(array_out_mean)):
                 array_out_mean[k][0] = step_gas_analyzer
                 array_out_sko[k][0] = step_gas_analyzer
+                array_mean_procent[k][0] = step_gas_analyzer
                 step_gas_analyzer -= 20
                 if step_gas_analyzer < 20:
                     step_gas_analyzer = 200
