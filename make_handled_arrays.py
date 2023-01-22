@@ -1,4 +1,6 @@
 import numpy as np
+import pathlib
+from pathlib import Path
 import os
 
 
@@ -9,7 +11,8 @@ def handled_arrays(path_with_mode):
     :return: None
     """
     # Загрузка массива одного из режима
-    unhandled_array = np.loadtxt("modes\\{}".format(path_with_mode), skiprows=1, usecols=(range(2, 14)))
+    path_to_unhandled_array = Path("modes", "{}".format(path_with_mode))
+    unhandled_array = np.loadtxt(path_to_unhandled_array, skiprows=1, usecols=(range(2, 14)))
 
     # Создание массивов для дальнейшего присвоения туда обработанного массива
     array_out_mean = np.array(range(unhandled_array.shape[1])).reshape(1, 12)
@@ -103,18 +106,24 @@ def handled_arrays(path_with_mode):
                     step_gas_analyzer = 200
 
             if os.path.exists("{}_dir".format(path_with_mode[:-4])):
-                dir_path = os.path.abspath("{}_dir".format(path_with_mode[:-4]))
-                np.savetxt("{}\\{}".format(dir_path, path_with_mode[:-4]), array_out_mean, fmt=fmt, header=header)
-                np.savetxt("{}\\{}_SKO".format(dir_path, path_with_mode[:-4]), array_out_sko, fmt=fmt, header=header)
-                np.savetxt("{}\\{}_procent".format(dir_path, path_with_mode[:-4]), array_mean_procent, fmt="% 1.3f",
-                           header=header_procent)
+                path_to_save = Path("{}_dir".format(path_with_mode[:-4]), "{}".format(path_with_mode[:-4]))
+                np.savetxt(path_to_save, array_out_mean, fmt=fmt, header=header)
+
+                path_to_save_sko = Path("{}_dir".format(path_with_mode[:-4]), "{}_SKO".format(path_with_mode[:-4]))
+                np.savetxt(path_to_save_sko, array_out_sko, fmt=fmt, header=header)
+
+                path_to_save_procent = Path("{}_dir".format(path_with_mode[:-4]), "{}_procent".format(path_with_mode[:-4]))
+                np.savetxt(path_to_save_procent, array_mean_procent, fmt="% 1.3f", header=header_procent)
             else:
                 os.makedirs("{}_dir".format(path_with_mode[:-4]))
-                dir_path = os.path.abspath("{}_dir".format(path_with_mode[:-4]))
-                np.savetxt("{}\\{}".format(dir_path, path_with_mode[:-4]), array_out_mean, fmt=fmt, header=header)
-                np.savetxt("{}\\{}_SKO".format(dir_path, path_with_mode[:-4]), array_out_sko, fmt=fmt, header=header)
-                np.savetxt("{}\\{}_procent".format(dir_path, path_with_mode[:-4]), array_mean_procent, fmt="% 1.3f",
-                           header=header_procent)
+                path_to_save = Path("{}_dir".format(path_with_mode[:-4]), "{}".format(path_with_mode[:-4]))
+                np.savetxt(path_to_save, array_out_mean, fmt=fmt, header=header)
+
+                path_to_save_sko = Path("{}_dir".format(path_with_mode[:-4]), "{}_SKO".format(path_with_mode[:-4]))
+                np.savetxt(path_to_save_sko, array_out_sko, fmt=fmt, header=header)
+
+                path_to_save_procent = Path("{}_dir".format(path_with_mode[:-4]), "{}_procent".format(path_with_mode[:-4]))
+                np.savetxt(path_to_save_procent, array_mean_procent, fmt="% 1.3f", header=header_procent)
 
     convert_to_txt(array_out_mean, array_out_sko, path_with_mode)
 
