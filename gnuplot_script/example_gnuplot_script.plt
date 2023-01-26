@@ -1,0 +1,2 @@
+pwd
+system "ls"
