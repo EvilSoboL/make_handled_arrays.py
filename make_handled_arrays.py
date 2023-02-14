@@ -2,6 +2,7 @@ import numpy as np
 import pathlib
 from pathlib import Path
 import os
+import configparser
 
 
 def handled_arrays(path_with_mode):
@@ -25,16 +26,13 @@ def handled_arrays(path_with_mode):
             index_start = i  # Индекс начала массива
             # Алгоритм создания срезов массива по 70 секунд
             # Длительность среза массива (время выхода на стационар + измерения)
-            with open("config.txt") as config:
-                rows_in_config = 0
-                for row in config:
-                    for symbols in range(len(row)):
-                        if row[symbols] == ":":
-                            if rows_in_config == 0:
-                                slice_duration = float(row[symbols + 1:])
-                            elif rows_in_config == 1:
-                                averaging_duration = float(row[symbols + 1:])
-                            rows_in_config += 1
+
+            # Чтение файла из когфига
+            config = configparser.ConfigParser()
+            config.read("conf.ini")
+            slice_duration = float(config["DEFAULT"]["slice_duration"])
+            averaging_duration = float(config["DEFAULT"]["averaging_duration"])
+
             # Прибавляем i до тех пор пока значение времени не будет + 70 секунд
             while time_start + slice_duration > unhandled_array[i][0] and i != (unhandled_array.shape[0] - 1):
                 i += 1
